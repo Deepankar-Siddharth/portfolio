@@ -1,9 +1,13 @@
 "use client";
 
 import Link from "next/link";
+import { motion } from "motion/react";
 import useReveal from "@/lib/use-reveal";
 import { PROJECTS } from "@/lib/content";
 import ProjectVisual from "./project-visual";
+import { RevealOnce, ScrollParallax } from "./scroll/reveals";
+
+const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 const BRIEF_ROWS = ["briefProblem", "briefContribution", "briefEngineering", "briefResult"] as const;
 const ROW_LABELS: Record<(typeof BRIEF_ROWS)[number], string> = {
@@ -21,8 +25,10 @@ function ProjectTile({ project, flagship }: { project: (typeof PROJECTS)[number]
 
   return (
     <article
-      className={`group border border-line transition-colors duration-500 hover:border-paper/25 ${
-        flagship ? "bg-gradient-to-b from-[rgba(216,255,62,0.05)] to-transparent" : ""
+      className={`project-tile group relative overflow-hidden border border-line transition-colors duration-500 hover:border-paper/25 ${
+        flagship
+          ? "project-tile--flagship bg-gradient-to-b from-[rgba(216,255,62,0.05)] to-transparent"
+          : ""
       }`}
       data-cursor="view"
     >
@@ -30,9 +36,15 @@ function ProjectTile({ project, flagship }: { project: (typeof PROJECTS)[number]
       <div className="flex flex-wrap items-baseline justify-between gap-3 border-b border-line px-6 py-4 md:px-10">
         <div className="flex items-baseline gap-4">
           <span className="mono text-xs text-acid">{project.index}</span>
-          <h3 className={`display-md ${flagship ? "text-acid md:text-5xl" : "text-paper md:text-4xl"}`}>
+          <motion.h3
+            className={`display-md ${flagship ? "text-acid md:text-5xl" : "text-paper md:text-4xl"}`}
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.6 }}
+            transition={{ duration: 0.7, delay: 0.05, ease: EASE }}
+          >
             {project.title}
-          </h3>
+          </motion.h3>
         </div>
         <div className="mono flex items-center gap-3 text-[11px] uppercase tracking-[0.16em] text-muted">
           <span>{project.position}</span>
@@ -44,9 +56,11 @@ function ProjectTile({ project, flagship }: { project: (typeof PROJECTS)[number]
       <div className="grid gap-8 p-6 md:grid-cols-12 md:gap-10 md:p-10">
         {/* Visual */}
         <div className={`relative order-2 h-60 overflow-hidden rounded-xl ${visualSpan} ${visualOrder} ${flagship ? "md:h-[28rem]" : "md:h-80 lg:h-96"}`}>
-          <div className="absolute inset-0 scale-100 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]">
-            <ProjectVisual kind={project.visual} />
-          </div>
+          <ScrollParallax y={[-20, 20]} className="absolute inset-0">
+            <div className="absolute inset-0 scale-100 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.025]">
+              <ProjectVisual kind={project.visual} />
+            </div>
+          </ScrollParallax>
         </div>
 
         {/* Content */}
@@ -145,9 +159,11 @@ export default function Work() {
           </a>
         </div>
 
-        <div className="mt-20 flex flex-col gap-14" data-reveal>
+        <div className="mt-20 flex flex-col gap-14">
           {PROJECTS.map((p, i) => (
-            <ProjectTile key={p.slug} project={p} flagship={i === 0} />
+            <RevealOnce key={p.slug} y={24} scale={0.97} delay={i * 0.08}>
+              <ProjectTile project={p} flagship={i === 0} />
+            </RevealOnce>
           ))}
         </div>
       </div>

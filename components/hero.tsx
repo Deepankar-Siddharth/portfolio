@@ -104,6 +104,14 @@ export default function Hero({ stats }: { stats: HeroStats | null }) {
   const contentY = useTransform(scrollYProgress, [0, 1], [0, -120]);
   const contentOpacity = useTransform(scrollYProgress, [0, 0.65], [1, 0]);
 
+  // Layered scroll parallax: each layer moves at its own depth.
+  const animate = !reduced;
+  const nameY1 = useTransform(scrollYProgress, [0, 1], [0, -70]);
+  const nameY2 = useTransform(scrollYProgress, [0, 1], [0, -120]);
+  const nameScale = useTransform(scrollYProgress, [0, 1], [1, 0.985]);
+  const threeY = useTransform(scrollYProgress, [0, 1], [0, -170]);
+  const bgY = useTransform(scrollYProgress, [0, 1], [0, -36]);
+
   return (
     <MotionConfig reducedMotion={reduced ? "always" : "user"}>
       <section
@@ -115,11 +123,13 @@ export default function Hero({ stats }: { stats: HeroStats | null }) {
         {/* Background layers */}
         <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
           <div ref={glowRef} className="absolute inset-0" />
-          <div ref={bgRef} className="hero-bg absolute inset-0 will-change-transform">
-            <div className="hero-grid absolute inset-0" />
-            <div className="hero-grain absolute inset-0" />
-            <div className="hero-orbit absolute right-[-10rem] top-1/2 hidden -translate-y-1/2 lg:block" />
-          </div>
+          <motion.div style={{ y: animate ? bgY : 0 }} className="absolute inset-0 will-change-transform">
+            <div ref={bgRef} className="hero-bg absolute inset-0 will-change-transform">
+              <div className="hero-grid absolute inset-0" />
+              <div className="hero-grain absolute inset-0" />
+              <div className="hero-orbit absolute right-[-10rem] top-1/2 hidden -translate-y-1/2 lg:block" />
+            </div>
+          </motion.div>
         </div>
 
         {/* Content */}
@@ -166,26 +176,33 @@ export default function Hero({ stats }: { stats: HeroStats | null }) {
               {/* Name */}
               <div ref={nameRef} className="lg:col-span-8 will-change-transform">
                 <h1 id="hero-name" className="display hero-name block leading-[0.86]">
-                  <span className="hero-mask block">
-                    <motion.span
-                      className="block"
-                      initial={{ y: "115%" }}
-                      animate={{ y: "0%" }}
-                      transition={{ duration: 0.95, delay: 0.35, ease: EASE }}
-                    >
-                      {SITE.firstName}
-                    </motion.span>
-                  </span>
-                  <span className="hero-mask block">
-                    <motion.span
-                      className="hero-name--alt text-outline block"
-                      initial={{ y: "115%" }}
-                      animate={{ y: "0%" }}
-                      transition={{ duration: 0.95, delay: 0.48, ease: EASE }}
-                    >
-                      {SITE.lastName}
-                    </motion.span>
-                  </span>
+                  <motion.div style={{ y: animate ? nameY1 : 0 }} className="will-change-transform">
+                    <span className="hero-mask block">
+                      <motion.span
+                        className="block"
+                        initial={{ y: "115%" }}
+                        animate={{ y: "0%" }}
+                        transition={{ duration: 0.95, delay: 0.35, ease: EASE }}
+                      >
+                        {SITE.firstName}
+                      </motion.span>
+                    </span>
+                  </motion.div>
+                  <motion.div
+                    style={{ y: animate ? nameY2 : 0, scale: animate ? nameScale : 1 }}
+                    className="will-change-transform"
+                  >
+                    <span className="hero-mask block">
+                      <motion.span
+                        className="hero-name--alt text-outline block"
+                        initial={{ y: "115%" }}
+                        animate={{ y: "0%" }}
+                        transition={{ duration: 0.95, delay: 0.48, ease: EASE }}
+                      >
+                        {SITE.lastName}
+                      </motion.span>
+                    </span>
+                  </motion.div>
                 </h1>
               </div>
 
@@ -208,14 +225,16 @@ export default function Hero({ stats }: { stats: HeroStats | null }) {
                   className="flex items-end justify-end will-change-transform"
                   aria-hidden="true"
                 >
-                  <motion.div
-                    data-cursor="explore"
-                    className="hero-three relative block h-52 w-52 md:h-64 md:w-64"
-                    initial={{ opacity: 0, scale: 0.92 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.9, delay: 0.6, ease: EASE }}
-                  >
-                    <ThreeElement />
+                  <motion.div style={{ y: animate ? threeY : 0 }} className="will-change-transform">
+                    <motion.div
+                      data-cursor="explore"
+                      className="hero-three relative block h-52 w-52 md:h-64 md:w-64"
+                      initial={{ opacity: 0, scale: 0.92 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.9, delay: 0.6, ease: EASE }}
+                    >
+                      <ThreeElement />
+                    </motion.div>
                   </motion.div>
                 </motion.div>
               </div>

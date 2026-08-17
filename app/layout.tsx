@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
 import { Archivo, Space_Mono } from "next/font/google";
+import { MotionConfig } from "motion/react";
 import { SITE } from "@/lib/content";
 import Cursor from "@/components/cursor";
 import SiteHeader from "@/components/site-header";
 import SiteFooter from "@/components/site-footer";
+import ScrollProgress from "@/components/scroll/scroll-progress";
+import SectionIndicator from "@/components/scroll/section-indicator";
 import "./globals.css";
 
 const jsonLd = {
@@ -108,14 +111,18 @@ export default function RootLayout({
             Skip to main content
           </a>
         </div>
-        <Cursor />
-        <SiteHeader />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
-        <main id="main">{children}</main>
-        <SiteFooter />
+        <ScrollProgress />
+        <SectionIndicator />
+        <MotionConfig reducedMotion="user">
+          <Cursor />
+          <SiteHeader />
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          />
+          <main id="main">{children}</main>
+          <SiteFooter />
+        </MotionConfig>
       </body>
     </html>
   );

@@ -2,35 +2,25 @@
 
 import { useEffect, useState } from "react";
 import { NAV_ITEMS, SITE } from "@/lib/content";
+import useActiveSection from "@/lib/use-active-section";
 
 export default function SiteHeader() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [active, setActive] = useState<string>("");
+  const [compact, setCompact] = useState(false);
+  const active = useActiveSection();
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
+    let lastY = window.scrollY;
+    const onScroll = () => {
+      const y = window.scrollY;
+      setScrolled(y > 40);
+      setCompact(y > 80 && y > lastY);
+      lastY = y;
+    };
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  // Scroll-spy: highlight the section currently in view.
-  useEffect(() => {
-    const ids = ["hero", "work", "build", "stack", "github", "journey", "about", "contact"];
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) setActive(entry.target.id);
-        });
-      },
-      { rootMargin: "-40% 0px -55% 0px" }
-    );
-    ids.forEach((id) => {
-      const el = document.getElementById(id);
-      if (el) observer.observe(el);
-    });
-    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
@@ -52,7 +42,7 @@ export default function SiteHeader() {
       <header
         className={`site-header fixed inset-x-0 top-0 z-90 transition-colors duration-500 ${
           scrolled && !open ? "site-header--scrolled" : ""
-        }`}
+        } ${compact && !open ? "site-header--compact" : ""}`}
       >
         <div className="container-x flex items-center justify-between py-5">
           <a

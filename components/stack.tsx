@@ -3,6 +3,7 @@
 import { useState } from "react";
 import useReveal from "@/lib/use-reveal";
 import { STACK } from "@/lib/content";
+import { ScrollParallax } from "./scroll/reveals";
 
 export default function Stack() {
   useReveal();
@@ -26,7 +27,7 @@ export default function Stack() {
           </p>
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-12" data-reveal>
+        <ScrollParallax y={[-14, 14]} className="grid gap-6 lg:grid-cols-12">
           {/* Technologies list */}
           <div className="overflow-hidden rounded-xl border border-line lg:col-span-7">
             {STACK.map((item, i) => (
@@ -71,7 +72,7 @@ export default function Stack() {
               </p>
             </div>
           </aside>
-        </div>
+        </ScrollParallax>
       </div>
     </section>
   );

@@ -2,19 +2,43 @@
 
 import useReveal from "@/lib/use-reveal";
 import { ABOUT, FOCUS } from "@/lib/content";
+import { AltReveal } from "./scroll/reveals";
+
+function splitLines(text: string, n: number): string[] {
+  const words = text.split(/\s+/);
+  const per = Math.ceil(words.length / n);
+  const lines: string[] = [];
+  for (let i = 0; i < n; i++) {
+    const chunk = words.slice(i * per, (i + 1) * per).join(" ");
+    if (chunk) lines.push(chunk);
+  }
+  return lines;
+}
+
+const STATEMENT_LINES = splitLines(ABOUT.statement, 7);
 
 export default function AboutSection() {
   useReveal();
 
   return (
-    <section id="about" className="section section-paper text-ink" aria-labelledby="about-heading">
+    <section id="about" className="section section-paper text-ink overflow-x-clip" aria-labelledby="about-heading">
       <div className="container-x py-28 md:py-40">
         <div className="mb-20" data-reveal>
           <p className="overline mb-4">07 · About</p>
         </div>
 
-        <h2 id="about-heading" data-reveal className="display max-w-5xl leading-[0.92]">
-          {ABOUT.statement}
+        <h2 id="about-heading" className="display max-w-5xl leading-[0.92]">
+          {STATEMENT_LINES.map((line, i) => (
+            <AltReveal
+              key={i}
+              from={i % 2 === 0 ? "left" : "right"}
+              distance={16}
+              amount={0.5}
+              className="block"
+            >
+              {line}
+            </AltReveal>
+          ))}
         </h2>
 
         <div className="mt-20 grid gap-6 md:mt-28 md:grid-cols-12">

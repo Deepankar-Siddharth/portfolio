@@ -17,6 +17,7 @@
   --color-acid: #d8ff3e;
   --color-ember: #ff5a36;
   --color-sky: #7dd3fc;
+  --color-violet: #a78bfa;
 
   --font-display: var(--font-archivo);
   --font-mono: var(--font-space-mono);
@@ -147,22 +148,27 @@ body {
 
 /* ---------- Motion primitives ---------- */
 
-/* Reveal on scroll: init hidden when JS is present, JS adds .in.
-   Without JS, everything stays visible (progressive enhancement). */
-.js [data-reveal] {
+/* Reveal on scroll — hardened: content is visible by default (no-JS,
+   JS-failure and reduced motion all show content). The useReveal hook adds
+   .will-reveal only to below-the-fold elements after mount, then .in on
+   intersection. Animation is enhancement, never a prerequisite. */
+.will-reveal {
   opacity: 0;
   will-change: transform, opacity;
   transition: opacity 0.8s var(--ease-out-expo);
 }
 
-.js [data-reveal].in {
+.will-reveal.in {
   opacity: 1;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .js [data-reveal] {
-    opacity: 1;
-    transform: none;
+  .will-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .line-reveal > span {
+    transform: none !important;
   }
 }
 
@@ -172,7 +178,7 @@ body {
   overflow: hidden;
 }
 
-.js .line-reveal > span {
+.will-reveal.line-reveal > span {
   display: inline-block;
   transform: translateY(110%);
   will-change: transform;
@@ -537,6 +543,15 @@ body {
   border-bottom-color: var(--color-line);
 }
 
+.site-header .container-x {
+  transition: padding 0.5s var(--ease-out-expo);
+}
+
+.site-header--compact .container-x {
+  padding-top: 0.7rem;
+  padding-bottom: 0.7rem;
+}
+
 .menu-btn {
   display: inline-flex;
   align-items: center;
@@ -602,6 +617,124 @@ body {
   to {
     transform: rotate(0deg);
   }
+}
+
+/* ---------- Scroll chrome ---------- */
+
+/* 2px acid scroll progress — top edge of the viewport */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  z-index: 150;
+  background: var(--color-acid);
+  transform-origin: 0 50%;
+  pointer-events: none;
+}
+
+/* Editorial section rail — right edge, md+ only */
+.section-indicator {
+  position: fixed;
+  right: 1.25rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 90;
+  display: none;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.1rem;
+}
+
+@media (min-width: 768px) {
+  .section-indicator {
+    display: flex;
+  }
+}
+
+.section-indicator a {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: rgba(244, 239, 230, 0.85);
+  mix-blend-mode: difference;
+  opacity: 0.4;
+  transition: opacity 0.35s var(--ease-out-expo);
+  padding: 0.15rem 0;
+}
+
+.section-indicator a .ind {
+  font-size: 9px;
+  opacity: 0.8;
+}
+
+.section-indicator a .lbl {
+  overflow: hidden;
+  max-width: 0;
+  white-space: nowrap;
+  transition: max-width 0.5s var(--ease-out-expo);
+}
+
+.section-indicator a:hover {
+  opacity: 0.85;
+}
+
+.section-indicator a.is-active {
+  opacity: 1;
+}
+
+.section-indicator a.is-active .lbl {
+  max-width: 8rem;
+}
+
+/* Pinned Journey stage — full-bleed inside the padded container */
+.journey-stage {
+  margin-inline: calc(-1 * clamp(1.25rem, 5vw, 5rem));
+}
+
+/* Per-era accent: --step-accent is set per card */
+.journey-node {
+  background: var(--step-accent);
+}
+.journey-index {
+  color: var(--step-accent);
+}
+.journey-period {
+  color: transparent;
+  -webkit-text-stroke: 1px var(--step-accent);
+  opacity: 0.4;
+  transition: opacity 0.5s var(--ease-out-expo);
+}
+.journey-article:hover .journey-period {
+  opacity: 1;
+}
+.journey-article:hover {
+  border-color: var(--step-accent);
+}
+
+/* Finora flagship — intensify the acid ambient glow on hover */
+.project-tile--flagship::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at 20% 20%,
+    rgba(216, 255, 62, 0.14),
+    transparent 55%
+  );
+  opacity: 0;
+  transition: opacity 0.7s var(--ease-out-expo);
+}
+.project-tile--flagship:hover::after {
+  opacity: 1;
 }
 
 /* ---------- Divider ---------- */
