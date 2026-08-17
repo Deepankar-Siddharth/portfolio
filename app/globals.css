@@ -100,6 +100,17 @@ body {
   text-transform: uppercase;
 }
 
+/* Focus-item names — capped so long unbreakable words like AUTOMATION
+   stay inside their grid column instead of overflowing the page. */
+.focus-name {
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  font-weight: 800;
+  text-transform: uppercase;
+  overflow-wrap: break-word;
+}
+
 .lede {
   font-size: clamp(1.05rem, 1.6vw, 1.35rem);
   line-height: 1.5;
@@ -141,6 +152,11 @@ body {
 .js [data-reveal] {
   opacity: 0;
   will-change: transform, opacity;
+  transition: opacity 0.8s var(--ease-out-expo);
+}
+
+.js [data-reveal].in {
+  opacity: 1;
 }
 
 @media (prefers-reduced-motion: reduce) {

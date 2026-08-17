@@ -35,10 +35,10 @@ export default function AboutSection() {
 
         <div className="mt-24 border-t border-ink/15 pt-12" data-reveal>
           <p className="overline mb-10">Currently exploring</p>
-          <ul className="grid gap-x-10 gap-y-8 sm:grid-cols-2 lg:grid-cols-4">
+          <ul className="grid gap-x-10 gap-y-8 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4">
             {FOCUS.map((f) => (
               <li key={f.name} className="border-l-2 border-ink/20 pl-5">
-                <p className="display-md">{f.name}</p>
+                <p className="focus-name">{f.name}</p>
                 <p className="mono mt-2 text-xs uppercase tracking-[0.18em] text-ink/70">
                   {f.status}
                 </p>
