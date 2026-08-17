@@ -30,16 +30,27 @@ export default function Journey() {
           {JOURNEY.map((step, i) => (
             <article
               key={step.phase}
-              className="flex w-[78vw] shrink-0 snap-start flex-col border-l border-line pl-6 pr-10 sm:w-[46vw] md:w-[38vw] lg:w-[30vw]"
+              className="group relative flex w-[80vw] shrink-0 snap-start flex-col border-l border-line pl-6 pr-10 transition-colors duration-500 hover:border-acid sm:w-[46vw] md:w-[38vw] lg:w-[30vw]"
             >
+              {/* node marker */}
+              <span
+                className="absolute -left-[5px] top-1 h-2.5 w-2.5 rounded-full bg-paper transition-colors duration-500 group-hover:bg-acid"
+                aria-hidden="true"
+              />
+
               <div className="mb-6 flex items-center gap-4">
                 <span className="mono text-xs text-acid">0{i + 1}</span>
                 <span className="mono text-xs uppercase tracking-[0.18em] text-muted">
-                  {step.phase}
+                  {step.phase.split("· ").slice(1).join("") || step.phase}
                 </span>
               </div>
-              <h3 className="display-md md:text-4xl">{step.title}</h3>
+
+              <p className="display-md text-outline-acid opacity-40 transition-opacity duration-500 group-hover:opacity-100 md:text-5xl">
+                {step.period}
+              </p>
+              <h3 className="display-md mt-4 md:text-4xl">{step.title}</h3>
               <p className="mt-4 max-w-sm text-paper/80">{step.body}</p>
+
               <div className="mt-8 flex flex-wrap gap-2">
                 {step.tags.map((t) => (
                   <span
@@ -50,9 +61,6 @@ export default function Journey() {
                   </span>
                 ))}
               </div>
-              <span className="mt-auto pt-8 mono text-[11px] uppercase tracking-[0.18em] text-muted">
-                {step.period}
-              </span>
             </article>
           ))}
         </div>

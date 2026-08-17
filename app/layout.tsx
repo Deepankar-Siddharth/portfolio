@@ -6,6 +6,16 @@ import SiteHeader from "@/components/site-header";
 import SiteFooter from "@/components/site-footer";
 import "./globals.css";
 
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: SITE.name,
+  jobTitle: SITE.title,
+  url: SITE.url,
+  sameAs: [SITE.github, SITE.website, SITE.x],
+  knowsAbout: ["Automation", "Full-Stack Development", "Android", "Privacy-focused software"],
+};
+
 const archivo = Archivo({
   variable: "--font-archivo",
   subsets: ["latin"],
@@ -85,8 +95,14 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${archivo.variable} ${spaceMono.variable}`}
+      suppressHydrationWarning
     >
       <body className="min-h-screen antialiased">
+        <script
+          dangerouslySetInnerHTML={{
+            __html: "document.documentElement.classList.add('js');",
+          }}
+        />
         <div className="skip-link-wrap">
           <a className="skip-link" href="#main">
             Skip to main content
@@ -94,6 +110,10 @@ export default function RootLayout({
         </div>
         <Cursor />
         <SiteHeader />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         <main id="main">{children}</main>
         <SiteFooter />
       </body>

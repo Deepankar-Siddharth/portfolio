@@ -17,25 +17,32 @@ export default function AboutSection() {
           {ABOUT.statement}
         </h2>
 
-        <div className="mt-20 space-y-6 md:mt-28">
-          {ABOUT.paragraphs.map((p) => (
+        <div className="mt-20 grid gap-6 md:mt-28 md:grid-cols-12">
+          {ABOUT.paragraphs.map((p, i) => (
             <p
-              key={p}
+              key={i}
               data-reveal
-              className="max-w-3xl text-2xl leading-snug text-ink/85 md:text-3xl"
+              className={
+                i === 0
+                  ? "md:col-span-7 text-2xl leading-snug text-ink/85 md:text-3xl"
+                  : "md:col-span-5 text-lg leading-relaxed text-ink/75 md:text-xl"
+              }
             >
               {p}
             </p>
           ))}
         </div>
 
-        <div className="mt-20" data-reveal>
-          <p className="overline mb-8">Currently exploring</p>
-          <ul className="flex flex-col gap-6 md:flex-row md:gap-10">
-            {FOCUS.map((f, i) => (
-              <li key={f} className="flex items-baseline gap-4">
-                <span className="mono text-sm text-ink/50">0{i + 1}</span>
-                <span className="display-md">{f}</span>
+        <div className="mt-24 border-t border-ink/15 pt-12" data-reveal>
+          <p className="overline mb-10">Currently exploring</p>
+          <ul className="grid gap-x-10 gap-y-8 sm:grid-cols-2 lg:grid-cols-4">
+            {FOCUS.map((f) => (
+              <li key={f.name} className="border-l-2 border-ink/20 pl-5">
+                <p className="display-md">{f.name}</p>
+                <p className="mono mt-2 text-xs uppercase tracking-[0.18em] text-ink/70">
+                  {f.status}
+                </p>
+                <p className="mt-2 text-sm text-ink/70">{f.note}</p>
               </li>
             ))}
           </ul>

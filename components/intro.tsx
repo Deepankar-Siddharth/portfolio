@@ -2,6 +2,13 @@
 
 import useReveal from "@/lib/use-reveal";
 
+const CAPABILITIES = [
+  { index: "01", label: "Products" },
+  { index: "02", label: "Automation" },
+  { index: "03", label: "Full-stack systems" },
+  { index: "04", label: "Android" },
+];
+
 export default function Intro() {
   useReveal();
 
@@ -22,17 +29,26 @@ export default function Intro() {
           </span>
         </h2>
 
-        <div className="mt-14 grid gap-10 md:grid-cols-12" data-reveal>
+        <div className="mt-16 grid gap-12 md:grid-cols-12" data-reveal>
           <p className="lede text-ink md:col-span-6">
-            {`I'm ${"Deepankar Siddharth"}. I make software that eliminates
-            repetitive work — automation, full-stack applications and
-            Android products, all built with a privacy-first mindset.`}
+            Software that removes repetitive work — across products,
+            automation, full-stack systems and Android, built with a
+            privacy-first mindset.
           </p>
-          <div className="md:col-span-4 md:col-start-9 mono text-xs text-ink/60 leading-relaxed">
-            <p>Automation tools ↓</p>
-            <p>Full-stack systems ↓</p>
-            <p>Android apps ↓</p>
-            <p>Privacy & local-first ↓</p>
+          <div className="md:col-span-5 md:col-start-8">
+            <ul className="border-t border-ink/20">
+              {CAPABILITIES.map((c) => (
+                <li
+                  key={c.index}
+                  className="group flex items-baseline justify-between border-b border-ink/20 py-4"
+                >
+                  <span className="mono text-xs text-ink/50">{c.index}</span>
+                  <span className="display-md text-ink transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-2 md:text-4xl">
+                    {c.label}
+                  </span>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </div>

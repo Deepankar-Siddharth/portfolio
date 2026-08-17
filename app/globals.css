@@ -72,6 +72,7 @@ body {
 
 .section {
   position: relative;
+  scroll-margin-top: 4rem;
 }
 
 /* Oversized editorial display type */
@@ -135,14 +136,15 @@ body {
 
 /* ---------- Motion primitives ---------- */
 
-/* Reveal on scroll: init hidden, JS adds .in */
-[data-reveal] {
+/* Reveal on scroll: init hidden when JS is present, JS adds .in.
+   Without JS, everything stays visible (progressive enhancement). */
+.js [data-reveal] {
   opacity: 0;
   will-change: transform, opacity;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  [data-reveal] {
+  .js [data-reveal] {
     opacity: 1;
     transform: none;
   }
@@ -154,7 +156,7 @@ body {
   overflow: hidden;
 }
 
-.line-reveal > span {
+.js .line-reveal > span {
   display: inline-block;
   transform: translateY(110%);
   will-change: transform;
@@ -302,6 +304,27 @@ body {
 
 .btn-magnetic:hover .btn-arrow {
   transform: translate(3px, -3px);
+}
+
+/* Gentle bob for scroll cues */
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(6px);
+  }
+}
+
+.btn-bob {
+  animation: bob 2.2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-bob {
+    animation: none;
+  }
 }
 
 /* ---------- Skip link ---------- */

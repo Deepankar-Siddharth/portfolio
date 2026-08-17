@@ -39,7 +39,9 @@ export default async function WorkCaseStudy(props: PageProps) {
           {project.title}
         </h1>
 
-        <div className="mt-8 flex flex-wrap gap-3 mono text-xs uppercase tracking-[0.18em] text-muted">
+        <p className="lede mt-8 max-w-2xl">{project.headline}</p>
+
+        <div className="mt-6 flex flex-wrap gap-3 mono text-xs uppercase tracking-[0.18em] text-muted">
           <span>{project.position}</span>
           <span>·</span>
           <span>{project.year}</span>

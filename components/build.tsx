@@ -33,9 +33,16 @@ export default function Build() {
               </h3>
               <div className="md:col-span-5 md:pl-4">
                 <p className="text-paper/80">{item.body}</p>
-                <p className="mono mt-3 text-xs uppercase tracking-[0.16em] text-muted">
-                  {item.evidence.join(" · ")}
-                </p>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {item.evidence.map((e) => (
+                    <span
+                      key={e}
+                      className="mono rounded-full border border-line px-3 py-1 text-[11px] uppercase tracking-[0.12em] text-paper/70 transition-colors duration-300 group-hover:border-acid/50 group-hover:text-acid"
+                    >
+                      {e}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
           ))}

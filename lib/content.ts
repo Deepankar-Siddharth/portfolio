@@ -16,7 +16,7 @@ export const SITE = {
   roles: ['Automation', 'Full-Stack', 'Android'],
   tagline:
     'Software developer building practical products, automation tools, full-stack applications and privacy-focused software.',
-  url: 'https://deepankar-portfolio.vercel.app',
+  url: 'https://deepankar-portfolio-five.vercel.app',
   github: 'https://github.com/Deepankar-Siddharth',
   githubHandle: 'Deepankar-Siddharth',
   website: 'https://deepankar.is-a.dev',
@@ -41,6 +41,11 @@ export type Project = {
   contribution: string;
   myWork: string[];
   foundation?: { name: string; url: string; note: string };
+  features?: string[];
+  briefProblem: string;
+  briefContribution: string;
+  briefEngineering: string;
+  briefResult: string;
   stack: string[];
   links: { label: string; href: string; external: boolean }[];
   status: string;
@@ -75,6 +80,10 @@ export const PROJECTS: Project[] = [
       'Secret & documentation hardening',
       'Demo-data cleanup',
     ],
+    briefProblem: 'Solving privacy + local-first finance',
+    briefContribution: 'Auth · Sync · Deployment · Hardening',
+    briefEngineering: 'React · TypeScript · Tailwind · Recharts · React Router',
+    briefResult: 'Live deployed application',
     foundation: {
       name: 'nayra-singh/finora',
       url: 'https://github.com/nayra-singh/finora',
@@ -127,6 +136,17 @@ export const PROJECTS: Project[] = [
       'Biometric & PIN lock',
       'CSV & JSON export',
     ],
+    features: [
+      'SMS parsing',
+      'SQLCipher encryption',
+      'Biometric & PIN lock',
+      'CSV export',
+      'JSON export',
+    ],
+    briefProblem: 'Banking data stays on the device',
+    briefContribution: 'Original — data layer, UI, encryption',
+    briefEngineering: 'Kotlin · Compose · Room · SQLCipher',
+    briefResult: 'Recent Android product',
     stack: [
       'Kotlin',
       'Jetpack Compose',
@@ -170,6 +190,10 @@ export const PROJECTS: Project[] = [
       'MySQL schema & queries',
       'Booking & reporting flows',
     ],
+    briefProblem: 'Scattered event operations',
+    briefContribution: 'Original client + server',
+    briefEngineering: 'React · Node.js · Express · MySQL',
+    briefResult: 'Original full-stack system',
     stack: ['React', 'Node.js', 'Express', 'MySQL', 'JWT'],
     links: [
       {
@@ -203,6 +227,11 @@ export const ENGINEERING = [
     phrase: 'I build Android apps.',
     body: 'Native applications with offline / local-first architecture.',
     evidence: ['Instant Ledger'],
+  },
+  {
+    phrase: 'I build developer tooling.',
+    body: 'Scripts, packages and provisioning that make environments repeatable.',
+    evidence: ['Terminal Package Collection', 'Temp-RDP', 'verified tooling repos'],
   },
 ];
 
@@ -284,9 +313,10 @@ export const JOURNEY: JourneyStep[] = [
 ];
 
 export const FOCUS = [
-  'Local-first finance',
-  'Privacy-aware Android',
-  'Automation workflows',
+  { name: 'FINORA', status: 'Active', note: 'Local-first finance dashboard' },
+  { name: 'INSTANT LEDGER', status: 'Recent product', note: 'Offline, encrypted finance ledger' },
+  { name: 'LOCAL-FIRST', status: 'Privacy-aware software', note: 'Data that never leaves the device' },
+  { name: 'AUTOMATION', status: 'Tools & workflows', note: 'GitHub Actions, scripts, provisioning' },
 ];
 
 export const ABOUT = {

@@ -8,11 +8,24 @@ import Journey from "@/components/journey";
 import AboutSection from "@/components/about";
 import Contact from "@/components/contact";
 import ThreeElement from "@/components/three-element";
+import { getGithubOverview } from "@/lib/github";
 
-export default function Home() {
+export default async function Home() {
+  const github = await getGithubOverview();
+
+  const heroStats = github.user
+    ? {
+        repositories: github.user.public_repos,
+        followers: github.user.followers,
+        following: github.user.following,
+        stars: github.stars,
+        forks: github.forks,
+      }
+    : null;
+
   return (
     <>
-      <Hero />
+      <Hero stats={heroStats} />
       <Intro />
       <Work />
       <Build />
