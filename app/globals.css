@@ -263,6 +263,122 @@ body {
   }
 }
 
+/* ---------- Hero ---------- */
+
+/* Slow ambient light that follows the cursor (JS parallax primes it) */
+.hero-bg {
+  background:
+    radial-gradient(circle at 72% 20%, rgba(216, 255, 62, 0.05), transparent 42%),
+    radial-gradient(circle at 12% 85%, rgba(255, 90, 54, 0.04), transparent 45%);
+}
+
+/* Faint blueprint grid */
+.hero-grid {
+  background-image:
+    linear-gradient(to right, rgba(244, 239, 230, 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(244, 239, 230, 0.045) 1px, transparent 1px);
+  background-size: 96px 96px;
+  -webkit-mask-image: radial-gradient(circle at center, #000 30%, transparent 82%);
+  mask-image: radial-gradient(circle at center, #000 30%, transparent 82%);
+}
+
+/* Film grain — extremely low noise on top of the grid */
+.hero-grain {
+  opacity: 0.5;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+}
+
+/* Decorative orbit ring behind the 3D knot */
+.hero-orbit {
+  width: min(46vw, 44rem);
+  aspect-ratio: 1;
+  border-radius: 999px;
+  border: 1px solid rgba(244, 239, 230, 0.1);
+  box-shadow:
+    0 0 0 64px rgba(216, 255, 62, 0.015),
+    0 0 0 128px rgba(216, 255, 62, 0.01),
+    inset 0 0 120px rgba(216, 255, 62, 0.03);
+}
+
+/* Oversized hero name */
+.hero-name {
+  font-size: clamp(3.25rem, 12vw, 10rem);
+  text-transform: uppercase;
+}
+
+.hero-name--alt {
+  font-size: clamp(3.25rem, 12vw, 10rem);
+  text-transform: uppercase;
+}
+
+/* Clip mask for the line-reveal of each name row */
+.hero-mask {
+  overflow: hidden;
+  padding-bottom: 0.04em;
+  margin-bottom: -0.04em;
+}
+
+/* Identity marker (DS / 01 / Work) */
+.identity-marker {
+  font-family: var(--font-mono);
+  letter-spacing: 0.22em;
+  color: var(--color-muted);
+  transition: color 0.4s var(--ease-out-expo);
+}
+
+/* 3D knot frame */
+.hero-three {
+  border-radius: 999px;
+}
+
+/* Scroll cue — mobile only */
+.hero-scroll-cue {
+  border-top: 1px solid var(--color-line);
+}
+
+.hero-scroll-line {
+  position: relative;
+  width: 1px;
+  height: 56px;
+  overflow: hidden;
+  background: rgba(244, 239, 230, 0.14);
+}
+
+.hero-scroll-line::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(to bottom, var(--color-acid), transparent);
+  transform-origin: 50% 0;
+  animation: hero-scroll-grow 2.4s var(--ease-in-out-quint) 0.6s infinite;
+}
+
+@keyframes hero-scroll-grow {
+  0% {
+    transform: scaleY(0.06);
+  }
+  60% {
+    transform: scaleY(1);
+  }
+  100% {
+    transform: translateY(110%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-scroll-line::after {
+    animation: none;
+    transform: scaleY(1);
+  }
+  .hero-grid {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+}
+
 /* ---------- Underline link ---------- */
 
 .u {

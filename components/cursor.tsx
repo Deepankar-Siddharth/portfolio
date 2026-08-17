@@ -50,18 +50,19 @@ export default function Cursor() {
     };
 
     const onOver = (e: MouseEvent) => {
-      const t = (e.target as HTMLElement)?.closest?.(
-        "[data-cursor='view'], a[data-cursor='view']"
-      ) as HTMLElement | null;
-      if (labelRef.current) {
-        if (t) {
-          labelRef.current.textContent = "View →";
-          labelRef.current.style.opacity = "1";
-          labelRef.current.style.transform = `translate(${tx}px, ${ty}px) scale(1)`;
-        } else {
-          labelRef.current.textContent = "";
-          labelRef.current.style.opacity = "0";
-        }
+      const t = (e.target as HTMLElement)?.closest?.("[data-cursor]") as
+        | HTMLElement
+        | null;
+      if (!labelRef.current) return;
+      if (t) {
+        const mode = t.getAttribute("data-cursor");
+        labelRef.current.textContent =
+          mode === "open" ? "Open →" : mode === "explore" ? "Explore" : "View →";
+        labelRef.current.style.opacity = "1";
+        labelRef.current.style.transform = `translate(${tx}px, ${ty}px) scale(1)`;
+      } else {
+        labelRef.current.textContent = "";
+        labelRef.current.style.opacity = "0";
       }
     };
 
